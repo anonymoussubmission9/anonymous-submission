@@ -447,7 +447,11 @@ class SumDataset(data.Dataset):
                 nladval.append(1)
                 #nlad[a, b] = 1
                 #nlad[b, a] = 1
-           
+            
+            '''
+            Based on the data type comment out the codes below
+            '''
+            
             # for e in x['edge3']:
             #     a = e[0] + self.Nl_Len#len(x['ftest']) + methodnum
             #     b = e[1] + self.Nl_Len#len(x['ftest']) + methodnum
@@ -492,25 +496,6 @@ class SumDataset(data.Dataset):
             overlap = self.getoverlap(texta, textb)
             # modi = self.normalize_list(modi)
             ch = self.normalize_list(ch)
-            '''for i in range(len(texta)):
-                for j in range(len(textb)):
-                    t = 0
-                    for xs in texta[i]:
-                        if xs in textb[j]:
-                            t += 1
-                    if t / len(texta[i]) > 0.4:
-                        nladrow.append(i)
-                        nladcol.append(self.Nl_Len + j)
-                        nladval.append(t / len(texta[i]))
-                for j in range(len(textc)):
-                    t = 0
-                    for xs in texta[i]:
-                        if xs in textc[j]:
-                            t += 1
-                    if t / len(texta[i]) > 0.4:
-                        nladrow.append(i)
-                        nladcol.append(methodnum + len(x['ftest']) + j)
-                        nladval.append(t / len(texta[i]))'''
 
             #print(overlap)
             Nodes.append(self.pad_seq(self.Get_Em(nodes, self.Nl_Voc), self.Nl_Len))
