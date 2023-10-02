@@ -448,31 +448,46 @@ class SumDataset(data.Dataset):
                 #nlad[a, b] = 1
                 #nlad[b, a] = 1
            
-            for e in x['edge3']:
-                a = e[0] + self.Nl_Len#len(x['ftest']) + methodnum
-                b = e[1] + self.Nl_Len#len(x['ftest']) + methodnum
-                if a == b:
-                    continue
-                #nlad[a, b] = 1
-                #nlad[b, a] = 1
-                #assert(0)
-                if (a, b) not in ed:
-                    ed[(a, b)] = 1
-                else:
-                    print(a, b)
-                    assert(0)
-                if (b, a) not in ed:
-                    ed[(b, a)] = 1
-                else:
-                    print(a, b)
-                    print(e[0], e[1])
-                    assert(0)
+            # for e in x['edge3']:
+            #     a = e[0] + self.Nl_Len#len(x['ftest']) + methodnum
+            #     b = e[1] + self.Nl_Len#len(x['ftest']) + methodnum
+            #     if a == b:
+            #         continue
+            #     #nlad[a, b] = 1
+            #     #nlad[b, a] = 1
+            #     #assert(0)
+            #     if (a, b) not in ed:
+            #         ed[(a, b)] = 1
+            #     else:
+            #         print(a, b)
+            #         assert(0)
+            #     if (b, a) not in ed:
+            #         ed[(b, a)] = 1
+            #     else:
+            #         print(a, b)
+            #         print(e[0], e[1])
+            #         assert(0)
+            #     nladrow.append(a)
+            #     nladcol.append(b)
+            #     nladval.append(1)
+            #     nladrow.append(b)
+            #     nladcol.append(a)
+            #     nladval.append(1)
+
+            for e in x['propagation_edges']:
+                a = e[0]
+                b = e[1]
+                
+                # Add edge a->b
                 nladrow.append(a)
                 nladcol.append(b)
                 nladval.append(1)
+
+                # Add edge b->a if you want bidirectional connections
                 nladrow.append(b)
                 nladcol.append(a)
                 nladval.append(1)
+            
             '''for e in x['edge4']:
                 #assert(0)
                 a = e[0] + len(x['ftest']) + methodnum 
