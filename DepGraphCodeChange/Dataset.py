@@ -15,7 +15,6 @@ import json
 dmap = {
     'Math':{0: 1, 1: 2, 2: 3, 3: 4, 4: 5, 5: 6, 6: 7, 7: 8, 8: 9, 9: 10, 10: 11, 11: 13, 12: 14, 13: 15, 14: 16, 15: 17, 16: 18, 17: 19, 18: 20, 19: 21, 20: 22, 21: 23, 22: 24, 23: 25, 24: 26, 25: 27, 26: 28, 27: 29, 28: 30, 29: 31, 30: 32, 31: 33, 32: 34, 33: 35, 34: 36, 35: 37, 36: 38, 37: 39, 38: 40, 39: 41, 40: 42, 41: 43, 42: 44, 43: 45, 44: 46, 45: 47, 46: 48, 47: 49, 48: 50, 49: 51, 50: 52, 51: 53, 52: 54, 53: 55, 54: 56, 55: 57, 56: 58, 57: 59, 58: 60, 59: 61, 60: 62, 61: 63, 62: 64, 63: 65, 64: 66, 65: 67, 66: 68, 67: 69, 68: 70, 69: 71, 70: 72, 71: 73, 72: 74, 73: 75, 74: 76, 75: 77, 76: 78, 77: 79, 78: 80, 79: 81, 80: 82, 81: 83, 82: 84, 83: 85, 84: 86, 85: 87, 86: 88, 87: 89, 88: 90, 89: 91, 90: 92, 91: 93, 92: 94, 93: 95, 94: 96, 95: 97, 96: 98, 97: 99, 98: 100, 99: 101, 100: 102, 101: 103, 102: 105, 103: 106},
     'Lang': {0: 1, 1: 2, 2: 3, 3: 4, 4: 5, 5: 6, 6: 7, 7: 8, 8: 9, 9: 10, 10: 11, 11: 12, 12: 13, 13: 14, 14: 15, 15: 16, 16: 17, 17: 18, 18: 19, 19: 20, 20: 21, 21: 22, 22: 24, 23: 26, 24: 27, 25: 28, 26: 29, 27: 30, 28: 31, 29: 32, 30: 33, 31: 34, 32: 35, 33: 36, 34: 37, 35: 38, 36: 39, 37: 40, 38: 41, 39: 42, 40: 43, 41: 44, 42: 45, 43: 46, 44: 47, 45: 48, 46: 49, 47: 50, 48: 51, 49: 52, 50: 53, 51: 54, 52: 55, 53: 57, 54: 58, 55: 59, 56: 60, 57: 61, 58: 62, 59: 63, 60: 64, 61: 65},
-    # 'Lang': {0: 1, 1: 3, 2: 4, 3: 5, 4: 6, 5: 7, 6: 8, 7: 9, 8: 10, 9: 11, 10: 12, 11: 13, 12: 14, 13: 15, 14: 16, 15: 17, 16: 18, 17: 19, 18: 20, 19: 21, 20: 22, 21: 24, 22: 25, 23: 26, 24: 27, 25: 28, 26: 29, 27: 30, 28: 31, 29: 32, 30: 33, 31: 34, 32: 35, 33: 36, 34: 37, 35: 38, 36: 39, 37: 40, 38: 41, 39: 42, 40: 43, 41: 44, 42: 45, 43: 46, 44: 47, 45: 48, 46: 49, 47: 50, 48: 51, 49: 52, 50: 53, 51: 54, 52: 55, 53: 57, 54: 58, 55: 59, 56: 60, 57: 61, 58: 62, 59: 63, 60: 64, 61: 65},
     'Chart':{0: 1, 1: 2, 2: 3, 3: 4, 4: 5, 5: 6, 6: 7, 7: 8, 8: 9, 9: 10, 10: 11, 11: 12, 12: 13, 13: 14, 14: 15, 15: 16, 16: 17, 17: 18, 18: 19, 19: 20, 20: 21, 21: 22, 22: 24, 23: 25, 24: 26},
     'Time':{0: 1, 1: 2, 2: 3, 3: 4, 4: 5, 5: 6, 6: 7, 7: 8, 8: 9, 9: 10, 10: 12, 11: 13, 12: 14, 13: 15, 14: 16, 15: 17, 16: 18, 17: 19, 18: 20, 19: 22, 20: 23, 21: 24, 22: 25, 23: 26, 24: 27},
     'Mockito':{0: 1, 1: 2, 2: 3, 3: 4, 4: 6, 5: 7, 6: 8, 7: 9, 8: 10, 9: 11, 10: 12, 11: 13, 12: 14, 13: 15, 14: 16, 15: 17, 16: 18, 17: 19, 18: 20, 19: 21, 20: 22, 21: 23, 22: 24, 23: 25, 24: 27, 25: 28, 26: 29, 27: 30, 28: 31, 29: 32, 30: 33, 31: 34, 32: 35, 33: 36, 34: 37, 35: 38},
@@ -312,13 +311,9 @@ class SumDataset(data.Dataset):
                     tokens = ".".join(rrdict[i].split(":")[0].split('.')[-2:] + [rrdict[i].split(":")[1]]) 
                 else:
                     tokens = ".".join(rrdict[i].split(":")[0].split('.')[-2:]) 
-                #print(tokens, self.splitCamel(tokens))
-                #tmpids = self.Get_Em(self.splitCamel(tokens), self.Code_Voc)#tokenizer.convert_tokens_to_ids(tokenizer.tokenize(tokens))#print(rrdict[i])
                 ans = self.splitCamel(tokens)
                 ans.remove('.')
                 texta.append(ans)#(self.pad_seq(tmpids, 10))
-                #print(tmpids)
-                #assert(0)
                 if i not in x['correctnum']:
                     types.append(1)
                 else:
@@ -337,19 +332,10 @@ class SumDataset(data.Dataset):
                     tokens = ".".join(rrdic[i].split(":")[0].split('.')[-2:] + [rrdic[i].split(":")[1]])
                 else:
                     tokens = ".".join(rrdic[i].split(":")[0].split('.')[-2:])
-                #print(tokens, self.splitCamel(tokens))
-                #tmpids = self.Get_Em(self.splitCamel(tokens), self.Code_Voc)#tokenizer.convert_tokens_to_ids(tokenizer.tokenize(tokens))#print(rrdict[i])
-                #print(tmpids)
                 ans = self.splitCamel(tokens)
                 ans.remove('.')
-                #print(ans)
-                #print(self.splitCamel(tokens), self.splitCamel(tokens).remove('.'))
-                #assert(0)
                 textb.append(ans)#(self.pad_seq(tmpids, 10))
             rrdic = {}
-            #for s in x['rtest']:
-            #    rrdic[x['rtest'][s]] = s
-            #textc = []
             for i in range(len(x['rtest'])):
                 nodes.append('RTest')
                 types.append(0)
@@ -379,9 +365,6 @@ class SumDataset(data.Dataset):
                 line2method[e[1]] = e[0]
                 a = e[0]
                 b = e[1] + self.Nl_Len#len(x['ftest']) + methodnum
-                #nlad[a, b] = 1
-                #nlad[b, a] = 1
-                #assert(0)
                 if (a, b) not in ed:
                     ed[(a, b)] = 1
                 else:
@@ -448,54 +431,9 @@ class SumDataset(data.Dataset):
                 #nlad[a, b] = 1
                 #nlad[b, a] = 1
            
-            # for e in x['edge3']:
-            #     a = e[0] + self.Nl_Len#len(x['ftest']) + methodnum
-            #     b = e[1] + self.Nl_Len#len(x['ftest']) + methodnum
-            #     if a == b:
-            #         continue
-            #     #nlad[a, b] = 1
-            #     #nlad[b, a] = 1
-            #     #assert(0)
-            #     if (a, b) not in ed:
-            #         ed[(a, b)] = 1
-            #     else:
-            #         print(a, b)
-            #         assert(0)
-            #     if (b, a) not in ed:
-            #         ed[(b, a)] = 1
-            #     else:
-            #         print(a, b)
-            #         print(e[0], e[1])
-            #         assert(0)
-            #     nladrow.append(a)
-            #     nladcol.append(b)
-            #     nladval.append(1)
-            #     nladrow.append(b)
-            #     nladcol.append(a)
-            #     nladval.append(1)
-            #print(texta, textb)
             overlap = self.getoverlap(texta, textb)
             # modi = self.normalize_list(modi)
             ch = self.normalize_list(ch)
-            '''for i in range(len(texta)):
-                for j in range(len(textb)):
-                    t = 0
-                    for xs in texta[i]:
-                        if xs in textb[j]:
-                            t += 1
-                    if t / len(texta[i]) > 0.4:
-                        nladrow.append(i)
-                        nladcol.append(self.Nl_Len + j)
-                        nladval.append(t / len(texta[i]))
-                for j in range(len(textc)):
-                    t = 0
-                    for xs in texta[i]:
-                        if xs in textc[j]:
-                            t += 1
-                    if t / len(texta[i]) > 0.4:
-                        nladrow.append(i)
-                        nladcol.append(methodnum + len(x['ftest']) + j)
-                        nladval.append(t / len(texta[i]))'''
 
             #print(overlap)
             Nodes.append(self.pad_seq(self.Get_Em(nodes, self.Nl_Voc), self.Nl_Len))
