@@ -6,7 +6,6 @@ from tqdm import tqdm
 from Model import *
 import numpy as np
 import time
-#from annoy import AnnoyIndex
 from nltk import word_tokenize
 import pickle
 from ScheduledOptim import ScheduledOptim
@@ -20,8 +19,14 @@ class dotdict(dict):
     def __getattr__(self, name):
         return self[name]
 
-NlLen_map = {"Time":3900, "Math":3000, "Lang":350, "Chart": 2350, "Mockito":1370, "Codec":160, "Compress":1000, "Gson":1500, "Cli":1000, "Jsoup":2000, "Csv":1000, "JacksonCore":1000, 'JacksonXml':500, 'Collections':500}
-CodeLen_map = {"Time":1300, "Math":1000, "Lang":350, "Chart":5250, "Mockito":280, "Codec":190, "Compress":1500, "Gson":1500, "Cli":1000, "Jsoup":2000, "Csv":1000, "JacksonCore":1000, 'JacksonXml':500, 'Collections':500}
+# math: 2986x977
+# codec: 158x186
+# Compress: 448x1114
+# Gson 898x312
+# Cli 497x293
+# JacksonCore 289x144
+NlLen_map = {"Time":3900, "Math":3000, "Lang":500, "Chart": 2350, "Mockito":1400, "Closure":5000, "Codec":500, "Compress":1000, "Gson":1000, "Cli":1000, "Jsoup":2000, "Csv":500, "JacksonCore":1000, 'JacksonXml':500, 'Collections':500}
+CodeLen_map = {"Time":600, "Math":1000, "Lang":500, "Chart":5250, "Mockito":300, "Closure":10000, "Codec":500, "Compress":1500, "Gson":1000, "Cli":1000, "Jsoup":2000, "Csv":500, "JacksonCore":1000, 'JacksonXml':500, 'Collections':500}
 args = dotdict({
     'NlLen':NlLen_map[sys.argv[2]],
     'CodeLen':CodeLen_map[sys.argv[2]],
@@ -85,11 +90,12 @@ def train(t = 5, p='Math'):
     args.Nl_Vocsize = len(train_set.Nl_Voc)
     args.Vocsize = len(train_set.Char_Voc)
 
-    print(dev_set.ids)
+    # print(dev_set.ids)
     model = NlEncoder(args)
     if use_cuda:
         print('using GPU')
         model = model.cuda()
+    
     maxl = 1e9
     optimizer = ScheduledOptim(optim.Adam(model.parameters(), lr=args.lr), args.embedding_size, 4000)
     maxAcc = 0
@@ -105,13 +111,15 @@ def train(t = 5, p='Math'):
     # Training time starts here
     train_start_time = time.time()
     cumulative_test_time = 0  # To hold the cumulative testing time across all epochs
-    for epoch in range(15):
+    
+    for epoch in range(10):
         index = 0
         for dBatch in tqdm(train_set.Get_Train(args.batch_size)):
             if index == 0:
                 accs = []
                 loss = []
                 model = model.eval()
+                
                 # Testing time starts here
                 test_start_time = time.time()
                 score2 = []
@@ -119,7 +127,7 @@ def train(t = 5, p='Math'):
                         for i in range(len(devBatch)):
                             devBatch[i] = gVar(devBatch[i])
                         with torch.no_grad():
-                            l, pre, _ = model(devBatch[0], devBatch[1], devBatch[2], devBatch[3], devBatch[4], devBatch[5], devBatch[6], devBatch[7], devBatch[8], devBatch[9])
+                            l, pre, _ = model(devBatch[0], devBatch[1], devBatch[2], devBatch[3], devBatch[4], devBatch[5], devBatch[6], devBatch[7])
                             resmask = torch.eq(devBatch[0], 2)
                             s = -pre#-pre[:, :, 1]
                             s = s.masked_fill(resmask == 0, 1e9)
@@ -143,11 +151,17 @@ def train(t = 5, p='Math'):
                 test_end_time = time.time()  # Testing time ends here
                 total_test_time = test_end_time - test_start_time
                 cumulative_test_time += total_test_time
-                # print(f'Total testing time for epoch {epoch}: {total_test_time} seconds')
                 each_epoch_pred[epoch] = lst
                 each_epoch_pred[str(epoch)+'_pred'] = score_dict
                 score = score2[0]
                 print('curr accuracy is ' + str(score) + "," + str(score2))
+                
+                # Calculate and display the memory usage of the model parameters
+                num_params = sum(p.numel() for p in model.parameters())
+                memory_in_bytes = num_params * 4  # 4 bytes for a 32-bit float
+                # print('-'*20)
+                # print(f"Approximate model memory: {memory_in_bytes / (1024 * 1024):.2f} MB")
+
                 if score2[0] == 0:
                     batchn.append(epoch)
                     
@@ -156,24 +170,27 @@ def train(t = 5, p='Math'):
                     brest = score2
                     bans = lst
                     maxl = score
-                    print("find better score " + str(score) + "," + str(score2))
+                    # print("find better score " + str(score) + "," + str(score2))
                     #save_model(model)
                     #torch.save(model.state_dict(), os.path.join(wandb.run.dir, 'model.pt'))
                 model = model.train()
             for i in range(len(dBatch)):
                 dBatch[i] = gVar(dBatch[i])
-            loss, _, _ = model(dBatch[0], dBatch[1], dBatch[2], dBatch[3], dBatch[4], dBatch[5], dBatch[6], dBatch[7], dBatch[8], dBatch[9])
+            loss, _, _ = model(dBatch[0], dBatch[1], dBatch[2], dBatch[3], dBatch[4], dBatch[5], dBatch[6], dBatch[7])
             print(loss.mean().item())
             optimizer.zero_grad()
             loss = loss.mean()
             loss.backward()
+            # if use_cuda:
+            #     current_memory_allocated = torch.cuda.memory_allocated()
+            #     memory_difference = (current_memory_allocated - initial_memory_allocated) / (1024 ** 2)  # Convert bytes to MB
+            #     print(f"GPU Memory Used: {memory_difference:.2f} MB")
 
             optimizer.step_and_update_lr()
             index += 1
     train_end_time = time.time()  # Training time ends here
     total_train_time = train_end_time - train_start_time
-
-    print(f"TIMING_INFO: Training Time: {total_train_time}, Testing Time: {cumulative_test_time}")
+    # print(f"TIMING_INFO: Training Time: {total_train_time}, Testing Time: {cumulative_test_time}")
     with open(f'{p}_timing_data.txt', 'a') as f:  # 'a' mode is for appending to the file
         f.write(f"TIMING_INFO: Training Time: {total_train_time}, Testing Time: {cumulative_test_time}\n")
 
@@ -190,6 +207,5 @@ if __name__ == "__main__":
     p = sys.argv[2]
     res[int(sys.argv[1])] = train(int(sys.argv[1]), p)
     open('%sres%d_%d_%s_%s.pkl'%(p, int(sys.argv[1]), args.seed, args.lr, args.batch_size), 'wb').write(pickle.dumps(res))
-
 
 

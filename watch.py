@@ -20,7 +20,7 @@ def splitCamel(token):
 p = pickle.load(open(pr + 'res_%d_%s_%s.pkl'%(seed,lr,batch_size), 'rb'))
 f = pickle.load(open(pr + '.pkl', 'rb'))
 
-print(len(f), len(p))
+# print(len(f), len(p))
 #assert(0)
 score = []
 score2 = []
@@ -71,7 +71,7 @@ for _, i in enumerate(p):
     #print(xs[2])
     #score.append(maxn)
 
-print(score)
+# print(score)
 
 with open(pr + 'result_final_%d_%s_%s'%(seed,lr, batch_size), 'w') as pp:
     pp.write("lr: %f seed %d batch_size %d\n"%(lr, seed, batch_size))
@@ -116,7 +116,7 @@ for idx in p:
     each_epoch_pred = xs[3]
     best_pred = each_epoch_pred[best_epoch]
     score_pred = each_epoch_pred[str(best_epoch)+'_pred']
-    print('-'*20)
+    # print('-'*20)
     print('Project Number:', idx)
     print('Correct Answer:', f[idx]['ans'])
     print(best_pred)
@@ -149,19 +149,19 @@ for idx in p:
     print('Top3:', to3)
     print('Top5:', to5)
     print('Top10:', to10)
-    print('-'*20)
+    # print('-'*20)
 result_path = os.path.join("result-all")
 if not os.path.exists(result_path):
     os.makedirs(result_path)
 
-print('------------Original-----------------')
+print('########Original#########')
 print('top1:',top1)
 print('top3:',top3)
 print('top5:',top5)
 print('top10:',top10)
 print('mfr:',np.mean(mfr))
 print('mar:',np.mean(mar))
-print('-----------------------------')
+print('###############')
 
 # with open(result_path + '/' + pr, 'w') as f:
 #     f.write('top1: %d\n'%top1)
@@ -170,49 +170,55 @@ print('-----------------------------')
 #     f.write('mfr: %f\n'%np.mean(mfr))
 #     f.write('mar: %f\n'%np.mean(mar))
 # best_epoch = sorted(eps.items(), key=lambda x:x[1])[-1][0]
-# top_count = [0] * 5  # list to count correct items in each position
-# mfr = []
-# mar = []
-# for idx in p:
-#     xs = p[idx]
-#     each_epoch_pred = xs[3]
-#     best_pred = each_epoch_pred[best_epoch]
-#     score_pred = each_epoch_pred[str(best_epoch)+'_pred']
-#     # print('-'*20)
-#     # print('Project Number:', idx)
-#     # print('Correct Answer:', f[idx]['ans'])
-#     # print('Ranking positions:',best_pred)
-#     # print('Scores:',score_pred)
-#     ar = []
-#     minl = 1e9
-#     for x in f[idx]['ans']:
-#         m = best_pred.index(x)
-#         ar.append(m)
-#         minl = min(minl, m)
-#         if m < len(top_count):  # increment the count if the index is within the list length
-#             top_count[m] += 1
-#     mfr.append(minl)
-#     mar.append(np.mean(ar))
+top_count = [0] * 5  # list to count correct items in each position
+mfr = []
+mar = []
+for idx in p:
+    xs = p[idx]
+    each_epoch_pred = xs[3]
+    best_pred = each_epoch_pred[best_epoch]
+    score_pred = each_epoch_pred[str(best_epoch)+'_pred']
+    # print('-'*20)
+    # print('Project Number:', idx)
+    # print('Correct Answer:', f[idx]['ans'])
+    # print('Ranking positions:',best_pred)
+    # print('Scores:',score_pred)
+    ar = []
+    minl = 1e9
+    for x in f[idx]['ans']:
+        m = best_pred.index(x)
+        ar.append(m)
+        minl = min(minl, m)
+        if m < len(top_count):  # increment the count if the index is within the list length
+            top_count[m] += 1
+    mfr.append(minl)
+    mar.append(np.mean(ar))
 
-#     # calculate top-k values
-#     top1 = top_count[0]
-#     top3 = sum(top_count[:3])
-#     top5 = sum(top_count)
+    # calculate top-k values
+    top1 = top_count[0]
+    top3 = sum(top_count[:3])
+    top5 = sum(top_count)
 
-#     # print('Current Top1:', top1)
-#     # print('Current Top3:', top3)
-#     # print('Current Top5:', top5)
-#     # print('-'*20)
+    # print('Current Top1:', top1)
+    # print('Current Top3:', top3)
+    # print('Current Top5:', top5)
+    # print('-'*20)
 
-# # result_path = os.path.join("result-all")
-# # if not os.path.exists(result_path):
-# #     os.makedirs(result_path)
+# result_path = os.path.join("result-all")
+# if not os.path.exists(result_path):
+#     os.makedirs(result_path)
 
-# print('------------GBMFL-----------------')
-# print('Final top1:',top1)
-# print('Final top3:',top3)
-# print('Final top5:',top5)
-# print('mfr:',np.mean(mfr))
-# print('mar:',np.mean(mar))
-# print('-----------------------------')
+print('########GBMFL########')
+print('Final top1:',top1)
+print('Final top3:',top3)
+print('Final top5:',top5)
+print('mfr:',np.mean(mfr))
+print('mar:',np.mean(mar))
+print('################')
 
+# with open(result_path + '/' + pr, 'w') as f:
+#     f.write('top1: %d\n' % top1)
+#     f.write('top3: %d\n' % top3)
+#     f.write('top5: %d\n' % top5)
+#     f.write('mfr: %f\n' % np.mean(mfr))
+#     f.write('mar: %f\n' % np.mean(mar))

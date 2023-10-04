@@ -1,7 +1,7 @@
 import pickle
 import os
 import sys
-versionNum = {'Lang': 65, 'Time': 27, 'Chart': 26, 'Math': 106, 'Closure': 133, 'Mockito': 38,
+versionNum = {'Lang': 65, 'Time': 27, 'Chart': 26, 'Math': 106, 'Closure': 176, 'Mockito': 38,
                    'Cli': 40, 'Codec': 18, 'Csv': 16, 'CommonsJXPath': 14,
                    'JacksonCore': 20, 'JacksonDatabind': 39, 'JacksonXml': 5, 'Jsoup': 93, 'Compress':47, 'Gson':18, 'Collections':26}
 proj = sys.argv[1]
