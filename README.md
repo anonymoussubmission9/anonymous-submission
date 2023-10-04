@@ -4,8 +4,7 @@ This is the public repository for FSE Submission #379: "Towards Better Graph Neu
 
 There are two folders, `DepGraph` and `DepGraphCodeChange`
 
-Put the pkl file in the root directory of the project based on the different methods. Then run `python runtotal.py project_name`. For example, `python runtotal.py Time`. The code in the `Dataset.py` would be changed based on the attribute type.
-
+Put the pkl file in the root directory of the project based on the different methods. Then run `python runtotal.py project_name`. For example, `python runtotal.py Time`. 
 All of our Data can be found here: https://drive.google.com/drive/folders/172F5Gv82hC_Qvsb5eQ_XUw1_98gXcRi7?usp=sharing
 
 The data is Seperated in two folders:
