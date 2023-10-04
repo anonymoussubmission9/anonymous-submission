@@ -271,10 +271,6 @@ class SumDataset(data.Dataset):
                             error += 1
                         else:
                             correct += 1
-                        # assert error_trace in stack_info.keys()
-                    # error += 1
-                # else:
-                    # correct += 1
                     
             nodes = []
             types = []
@@ -296,13 +292,9 @@ class SumDataset(data.Dataset):
                     tokens = ".".join(rrdict[i].split(":")[0].split('.')[-2:] + [rrdict[i].split(":")[1]]) 
                 else:
                     tokens = ".".join(rrdict[i].split(":")[0].split('.')[-2:]) 
-                #print(tokens, self.splitCamel(tokens))
-                #tmpids = self.Get_Em(self.splitCamel(tokens), self.Code_Voc)#tokenizer.convert_tokens_to_ids(tokenizer.tokenize(tokens))#print(rrdict[i])
                 ans = self.splitCamel(tokens)
                 ans.remove('.')
                 texta.append(ans)#(self.pad_seq(tmpids, 10))
-                #print(tmpids)
-                #assert(0)
                 if i not in x['correctnum']:
                     types.append(1)
                 else:
@@ -321,33 +313,11 @@ class SumDataset(data.Dataset):
                     tokens = ".".join(rrdic[i].split(":")[0].split('.')[-2:] + [rrdic[i].split(":")[1]])
                 else:
                     tokens = ".".join(rrdic[i].split(":")[0].split('.')[-2:])
-                #print(tokens, self.splitCamel(tokens))
-                #tmpids = self.Get_Em(self.splitCamel(tokens), self.Code_Voc)#tokenizer.convert_tokens_to_ids(tokenizer.tokenize(tokens))#print(rrdict[i])
-                #print(tmpids)
                 ans = self.splitCamel(tokens)
                 ans.remove('.')
-                #print(ans)
-                #print(self.splitCamel(tokens), self.splitCamel(tokens).remove('.'))
-                #assert(0)
                 textb.append(ans)#(self.pad_seq(tmpids, 10))
             rrdic = {}
-            #for s in x['rtest']:
-            #    rrdic[x['rtest'][s]] = s
-            #textc = []
             for i in range(len(x['rtest'])):
-                #if len(rrdic[i].split(":")) > 1:
-                #    tokens = ".".join(rrdic[i].split(":")[0].split('.')[-2:] + [rrdic[i].split(":")[1]])
-                #else:
-                #    tokens = ".".join(rrdic[i].split(":")[0].split('.')[-2:])
-                #print(tokens, self.splitCamel(tokens))
-                #tmpids = self.Get_Em(self.splitCamel(tokens), self.Code_Voc)#tokenizer.convert_tokens_to_ids(tokenizer.tokenize(tokens))#print(rrdict[i])
-                #print(tmpids)
-                #ans = self.splitCamel(tokens)
-                #ans.remove('.')
-                #print(ans)
-                #print(self.splitCamel(tokens), self.splitCamel(tokens).remove('.'))
-                #assert(0)
-                #textc.append(ans)
                 nodes.append('RTest')
                 types.append(0)
 
@@ -445,185 +415,25 @@ class SumDataset(data.Dataset):
                 #nlad[a, b] = 1
                 #nlad[b, a] = 1
            
-            # for e in x['propagation_edges']:
-            #     a = e[0]
-            #     b = e[1]
-                
-            #     # Add edge a->b
-            #     nladrow.append(a)
-            #     nladcol.append(b)
-            #     nladval.append(1)
-
-            #     # Add edge b->a if you want bidirectional connections
-            #     nladrow.append(b)
-            #     nladcol.append(a)
-            #     nladval.append(1)
-
-            '''for e in x['edge3']:
-                a = e[0] + self.Nl_Len#len(x['ftest']) + methodnum
-                b = e[1] + self.Nl_Len#len(x['ftest']) + methodnum
-                if a == b:
-                    continue
-                #nlad[a, b] = 1
-                #nlad[b, a] = 1
-                #assert(0)
-                if (a, b) not in ed:
-                    ed[(a, b)] = 1
-                else:
-                    print(a, b)
-                    assert(0)
-                if (b, a) not in ed:
-                    ed[(b, a)] = 1
-                else:
-                    print(a, b)
-                    print(e[0], e[1])
-                    assert(0)
-                nladrow.append(a)
-                nladcol.append(b)
-                nladval.append(1)
-                nladrow.append(b)
-                nladcol.append(a)
-                nladval.append(1)'''
-            '''for e in x['edge4']:
-                #assert(0)
-                a = e[0] + len(x['ftest']) + methodnum 
-                b = e[1] + len(x['ftest']) + methodnum + len(x['lines'])
-                #nlad[a, b] = 1
-                #nlad[b, a] = 1
-                #assert(0)
-                if (a, b) not in ed:
-                    ed[(a, b)] = 1
-                else:
-                    print(a, b)
-                    assert(0)
-                if (b, a) not in ed:
-                    ed[(b, a)] = 1
-                else:
-                    print(a, b)
-                    assert(0)
-                nladrow.append(a)
-                nladcol.append(b)
-                nladval.append(1)
-                nladrow.append(b)
-                nladcol.append(a)
-                nladval.append(1)
-            for e in x['edge5']:
-                a = e[0] + methodnum
-                b = e[1] + len(x['ftest']) + methodnum + len(x['lines'])
-                #nlad[a, b] = 1
-                #nlad[b, a] = 1
-                #assert(0)
-                if (a, b) not in ed:
-                    ed[(a, b)] = 1
-                else:
-                    print(a, b)
-                    assert(0)
-                if (b, a) not in ed:
-                    ed[(b, a)] = 1
-                else:
-                    print(a, b)
-                    assert(0)
-                nladrow.append(a)
-                nladcol.append(b)
-                nladval.append(1)
-                nladrow.append(b)
-                nladcol.append(a)
-                nladval.append(1)'''
-            '''for e in x['edge6']:
+            for e in x['propagation_edges']:
                 a = e[0]
-                b = e[1] + len(x['ftest']) + methodnum
-                #nlad[a, b] = 1
-                #nlad[b, a] = 1
-                #assert(0)
-                if (a, b) not in ed:
-                    ed[(a, b)] = 1
-                else:
-                    print(a, b)
-                    assert(0)
-                if (b, a) not in ed:
-                    ed[(b, a)] = 1
-                else:
-                    print(a, b)
-                    assert(0)
+                b = e[1]
+                
                 nladrow.append(a)
                 nladcol.append(b)
                 nladval.append(1)
-                nladrow.append(b)
-                nladcol.append(a)
-                nladval.append(1)
-            for e in x['edge7']:
-                a = e[0] + len(x['ftest']) + methodnum
-                b = e[1] 
-                #nlad[a, b] = 1
-                #nlad[b, a] = 1
-                #assert(0)
-                if (a, b) not in ed:
-                    ed[(a, b)] = 1
-                else:
-                    print(a, b)
-                    assert(0)
-                if (b, a) not in ed:
-                    ed[(b, a)] = 1
-                else:
-                    print(a, b)
-                    assert(0)
-                nladrow.append(a)
-                nladcol.append(b)
-                nladval.append(1)
-                nladrow.append(b)
-                nladcol.append(a)
-                nladval.append(1)
-            for e in x['edge8']:
-                a = e[0] + methodnum+ len(x['ftest'])
-                b = e[1] + len(x['ftest']) + methodnum
-                #nlad[a, b] = 1
-                #nlad[b, a] = 1
-                #assert(0)
-                if (a, b) not in ed:
-                    ed[(a, b)] = 1
-                else:
-                    print(a, b)
-                    assert(0)
-                if (b, a) not in ed:
-                    ed[(b, a)] = 1
-                else:
-                    print(a, b)
-                    assert(0)
-                nladrow.append(a)
-                nladcol.append(b)
-                nladval.append(1)
-                nladrow.append(b)
-                nladcol.append(a)
-                nladval.append(1)'''
-            #print(texta, textb)
-            overlap = self.getoverlap(texta, textb)
-            '''for i in range(len(texta)):
-                for j in range(len(textb)):
-                    t = 0
-                    for xs in texta[i]:
-                        if xs in textb[j]:
-                            t += 1
-                    if t / len(texta[i]) > 0.4:
-                        nladrow.append(i)
-                        nladcol.append(self.Nl_Len + j)
-                        nladval.append(t / len(texta[i]))
-                for j in range(len(textc)):
-                    t = 0
-                    for xs in texta[i]:
-                        if xs in textc[j]:
-                            t += 1
-                    if t / len(texta[i]) > 0.4:
-                        nladrow.append(i)
-                        nladcol.append(methodnum + len(x['ftest']) + j)
-                        nladval.append(t / len(texta[i]))'''
 
-            #print(overlap)
+                nladrow.append(b)
+                nladcol.append(a)
+                nladval.append(1)
+
+            overlap = self.getoverlap(texta, textb)
+
             Nodes.append(self.pad_seq(self.Get_Em(nodes, self.Nl_Voc), self.Nl_Len))
             Types.append(self.pad_seq(types, self.Nl_Len))
             Res.append(self.pad_seq(res, self.Nl_Len))
             LineMus.append(self.pad_list(mus, self.Code_Len, 3))
             inputText.append(self.pad_seq(overlap, self.Nl_Len))
-            #inputText.append(self.pad_list(text, self.Nl_Len, 10))
             LineNodes.append(self.pad_seq(self.Get_Em(linenodes, self.Nl_Voc), self.Code_Len))
             LineTypes.append(self.pad_seq(linetypes, self.Code_Len))
             row = {}
@@ -655,16 +465,7 @@ class SumDataset(data.Dataset):
         if True:
             for i in range(len(self.data)):
                 if i == 2:
-                    #torch.FloatTensor(np.array([self.data[i][offset].row, self.data[i][offset].col])).float()
-                    #torch.FloatTensor(self.data[i][offset].data)
-                    #torch.FloatTensor(self.data[i][offset].data)
-                    #ans.append(self.data[i][offset])
-                    #ans.append(torch.sparse.FloatTensor(torch.LongTensor(np.array([self.data[i][offset].row, self.data[i][offset].col])), torch.FloatTensor(self.data[i][offset].data).float(), torch.Size([self.Nl_Len,self.Nl_Len])))
-                    #open('tmp.pkl', 'wb').write(pickle.dumps(self.data[i][offset]))
-                    #assert(0)
                     ans.append(self.data[i][offset].toarray())
-                    #print(self.data[i][offset].toarray()[0, 2545])
-                    #assert(0)
                 else:
                     ans.append(np.array(self.data[i][offset]))
         else:
