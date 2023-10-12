@@ -415,17 +415,17 @@ class SumDataset(data.Dataset):
                 #nlad[a, b] = 1
                 #nlad[b, a] = 1
            
-            for e in x['propagation_edges']:
-                a = e[0]
-                b = e[1]
+            # for e in x['propagation_edges']:
+            #     a = e[0]
+            #     b = e[1]
                 
-                nladrow.append(a)
-                nladcol.append(b)
-                nladval.append(1)
+            #     nladrow.append(a)
+            #     nladcol.append(b)
+            #     nladval.append(1)
 
-                nladrow.append(b)
-                nladcol.append(a)
-                nladval.append(1)
+            #     nladrow.append(b)
+            #     nladcol.append(a)
+            #     nladval.append(1)
 
             overlap = self.getoverlap(texta, textb)
 
