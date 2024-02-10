@@ -14,7 +14,7 @@ The data is Seperated in two folders:
 ---------------------------------------
 
 # Updated Results
-See [Table II](Results/Table2.pdf)
+A comparison of the fault localization techniques can be found in [Table II](Results/Table2.pdf). For each system, we show the technique with the best MFR in bold (the lower the better). DepGraph shows the result after adopting Dependency-Enhanced Coverage Graph, and DepGraph + Code Change shows the result of the full DepGraph. The number in the parentheses shows the percentage improvement over [Grace](https://dl.acm.org/doi/10.1145/3468264.3468580). The best result is marked in bold.
 
 # AST Node Types Used in Our Analysis
 
