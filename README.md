@@ -1,6 +1,6 @@
 # FSE-paper
 
-This is the public repository for FSE Submission #379: "Towards Better Graph Neural Neural Network-based Fault Localization Through Enhanced Code Representation".
+This is the public repository for FSE Submission.
 
 There are two folders, `DepGraph` and `DepGraphCodeChange`. Both of the tecnhniques are included in these folders. 
 
